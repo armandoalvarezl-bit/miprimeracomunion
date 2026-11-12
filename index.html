@@ -1533,7 +1533,7 @@
     <button id="fasterPresentation" type="button" aria-label="Avanzar más rápido" title="Menos tiempo">&#43;</button>
   </div>
   <audio id="openingAudio" preload="auto" aria-hidden="true"><source src="assets/audio-primera-comunion-con-piano.wav" type="audio/wav"></audio>
-  <video class="background-audio" id="backgroundAudio" playsinline preload="auto" aria-hidden="true"><source src="assets/portada-comunion.mp4" type="video/mp4"></video>
+  <audio class="background-audio" id="backgroundAudio" preload="auto" aria-hidden="true"><source src="assets/angeles-de-dios.mp3" type="audio/mpeg"></audio>
   <header class="hero" id="inicio">
     <div class="sun" aria-hidden="true"></div>
     <svg class="hero-arch" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true">
@@ -1741,7 +1741,7 @@
   
   <script>
     const button = document.getElementById('music'), label = document.getElementById('musicLabel'), backgroundAudio = document.getElementById('backgroundAudio'); let playing = false;
-    const musicTailTrim = 1.4; backgroundAudio.addEventListener('timeupdate', () => { if (Number.isFinite(backgroundAudio.duration) && backgroundAudio.duration > musicTailTrim + 1 && backgroundAudio.currentTime >= backgroundAudio.duration - musicTailTrim) backgroundAudio.currentTime = 0 });
+    backgroundAudio.addEventListener('ended', () => { backgroundAudio.currentTime = 0; backgroundAudio.play().catch(() => {}) });
     function updateMusicButton() { button.classList.toggle('playing', playing); button.setAttribute('aria-label', playing ? 'Silenciar música' : 'Toca para escuchar la música'); label.textContent = playing ? 'Silenciar música' : 'Toca para escuchar' }
     async function tryAutoplayWithSound() { backgroundAudio.removeAttribute('muted'); backgroundAudio.muted = false; backgroundAudio.volume = 1; try { await backgroundAudio.play(); playing = true } catch (error) { backgroundAudio.muted = true; backgroundAudio.play().catch(() => {}); playing = false } updateMusicButton() }
     button.addEventListener('click', async () => { if (!playing) { backgroundAudio.muted = false; backgroundAudio.volume = 1; try { await backgroundAudio.play(); playing = true } catch (error) { backgroundAudio.muted = true; label.textContent = 'No se pudo reproducir'; return } } else { playing = false; backgroundAudio.muted = true } updateMusicButton() });
